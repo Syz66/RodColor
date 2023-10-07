@@ -1,0 +1,10 @@
+{
+  "name": "Rod Color",
+  "modId": "rodcolor",
+  "mixinConfigs": [
+    "rodcolor.mixins.json"
+  ],
+  "entrypoints": [
+    "me.zircta.rodcolor.Main"
+  ]
+}
