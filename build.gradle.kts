@@ -3,8 +3,11 @@ plugins {
     id("com.github.weave-mc.weave-gradle") version "fac948db7f"
 }
 
-group = "me.zircta"
-version = "1.0"
+val projectGroup:   String by project
+val projectVersion: String by project
+
+group = projectGroup
+version = projectVersion
 
 minecraft.version("1.8.9")
 
@@ -14,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.weave-mc:weave-loader:v0.2.4")
+    compileOnly("com.github.weave-mc:weave-loader:v0.2.5")
     compileOnly("org.spongepowered:mixin:0.8.5")
 }
 
