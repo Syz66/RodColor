@@ -1,4 +1,5 @@
 {
+  "required": true,
   "compatibilityLevel": "JAVA_8",
   "package": "me.zircta.rodcolor.mixins",
   "mixins": [
