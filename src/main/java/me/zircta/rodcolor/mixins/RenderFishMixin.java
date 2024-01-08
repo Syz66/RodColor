@@ -15,25 +15,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Unique;
-
-import java.awt.*;
 
 @Mixin(RenderFish.class)
 public class RenderFishMixin extends Render<EntityFishHook> {
-    @Unique
-    private static final ResourceLocation FISH_PARTICLES = new ResourceLocation("textures/particle/particles.png");
-
-    @Unique
-    private static final float COLOR_DELTA = 2000.0F;
-
     public RenderFishMixin(RenderManager renderManager) {
         super(renderManager);
     }
 
     /**
-     * @author Mojang
-     * @reason Change rod color.
+     * @author Mein Kampf
+     * @reason gotta change the rod colors cuhhh
      */
     @Overwrite
     public void doRender(EntityFishHook entity, double x, double y, double z, float entityYaw, float partialTicks) {
@@ -86,20 +77,15 @@ public class RenderFishMixin extends Render<EntityFishHook> {
             double d12 = (float) (d2 - d7);
             GlStateManager.disableTexture2D();
             GlStateManager.disableLighting();
+            GlStateManager.disableAlpha();
             worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
             for (int l = 0; l <= 16; ++l) {
                 float f10 = (float) l / 16.0F;
-                if (Main.config.getChroma()) {
-                    long dif = (long) ((x * 10) - (y * 10));
-                    long color = System.currentTimeMillis() - dif;
-                    int i = Color.HSBtoRGB((float) (color % (int) COLOR_DELTA) / COLOR_DELTA, 0.8F, 0.8F);
-                    Color c = new Color(i);
-                    worldrenderer.pos(x + d9 * (double) f10, y + d11 * (double) (f10 * f10 + f10) * 0.5D + 0.25D, z + d12 * (double) f10).color(c.getRed(), c.getGreen(), c.getBlue(), 255).endVertex();
-                } else
-                    worldrenderer.pos(x + d9 * (double) f10, y + d11 * (double) (f10 * f10 + f10) * 0.5D + 0.25D, z + d12 * (double) f10).color(Main.config.getRed(), Main.config.getGreen(), Main.config.getBlue(), 255).endVertex();
+                worldrenderer.pos(x + d9 * (double) f10, y + d11 * (double) (f10 * f10 + f10) * 0.5D + 0.25D, z + d12 * (double) f10).color(Main.config.color.getRed(), Main.config.color.getGreen(), Main.config.color.getBlue(), Main.config.color.getAlpha() / 255).endVertex();
             }
 
             tessellator.draw();
+            GlStateManager.enableAlpha();
             GlStateManager.enableLighting();
             GlStateManager.enableTexture2D();
             super.doRender(entity, x, y, z, entityYaw, partialTicks);
@@ -108,6 +94,6 @@ public class RenderFishMixin extends Render<EntityFishHook> {
 
     @Override
     public ResourceLocation getEntityTexture(EntityFishHook entityFishHook) {
-        return FISH_PARTICLES;
+        return new ResourceLocation("textures/particle/particles.png");
     }
 }
